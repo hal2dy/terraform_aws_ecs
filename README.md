@@ -7,7 +7,22 @@ Require [Terraform](https://www.terraform.io/)
 Terraform version using in this repo is [0.9.6](https://releases.hashicorp.com/terraform/0.9.6/terraform_0.9.6_darwin_amd64.zip?)
 
 ### How To Run
-Fill in requiere data in `configs.tfvars`, check for ECS task definition (including docker image file and container name) in `files/task_definitions.json`, set *route53_zone* and *domain* variables in `variables.tf`. Then
+
+**Config**
+
+ - Fill in requiere data in `configs.tfvars`
+ - Check for ECS task definition (including docker image file and container name) in `files/task_definitions.json`
+ - Set *route53_zone* and *domain* variables in `variables.tf`
+ - Config terraform backend `backend.tf`
+   - Set an existed `S3 bucket name` on AWS to `bucket` attribute in order to have Terraform remote state. (Suggest to enable Versioning for this bucket)
+   - Set an existed  `DynamoDB table name` to `lock_table` attribute in order to have Terraform state locking (The table must have a primary key named LockID)
+[read more](https://www.terraform.io/docs/backends/types/s3.html)
+
+then
+
+**Init Backend**
+
+    terraform init
 
 **Plan**
 

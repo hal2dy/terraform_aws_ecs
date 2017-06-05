@@ -38,12 +38,12 @@ variable "ssh_key" {
 variable "route53_zone" {
     type = "string"
     description = "Route 53 Zone"
-    default = "example.com"
+    default = "core.zalora.io"
 }
 
 variable "domain" {
     description = "Route53 domain for ELB"
-    default = "hello"
+    default = "hungtest"
 }
 
 variable "docker_host" {

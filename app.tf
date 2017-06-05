@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------
-# DATA
+# INIT
 # ----------------------------------------------------------------
 
 provider "aws" {
@@ -8,13 +8,12 @@ provider "aws" {
     region      = "${var.region}"
 }
 
-data "template_file" "ecs" {
-    template = "${file("files/bootstrap.sh")}"
-    vars {
-        cluster_name    = "${aws_ecs_cluster.terraform_new_cluster.name}"
-        docker_host     = "${var.docker_host}"
-        docker_auth     = "${var.docker_auth}"
-        docker_email    = "${var.docker_email}"
+terraform { 
+    backend "s3" {
+        region = "ap-southeast-1"
+        key = "terraform.tfstate" 
+        bucket = "hung-terraform-remote-state2"
+        lock_table = "terraform_lock_table_hung_test"
     }
 }
 
@@ -82,7 +81,7 @@ resource "aws_elb" "terraform_elb_ecs" {
         interval            = 5
     }
     tags {
-        Name = "terraform_elb_ecs-terraform-elb"
+        Name = "terraform_elb_ecs-terraform-elb2"
     }
 }
 
@@ -123,14 +122,24 @@ resource "aws_autoscaling_group" "terraform_esc_cluster_instances" {
     launch_configuration    = "${aws_launch_configuration.terraform_ecs_instance.name}"
     vpc_zone_identifier     = ["${aws_subnet.terraform_new_subnet.id}"]
     load_balancers          = ["${aws_elb.terraform_elb_ecs.id}"]
-    min_size                = 2
-    max_size                = 2
-    desired_capacity        = 2
+    min_size                = 1
+    max_size                = 1
+    desired_capacity        = 1
     health_check_type       = "ELB"
     tag {
         key                 = "Name"
         value               = "terraform_ecs_instance"
         propagate_at_launch = true
+    }
+}
+
+data "template_file" "ecs" {
+    template = "${file("files/bootstrap.sh")}"
+    vars {
+        cluster_name    = "${aws_ecs_cluster.terraform_new_cluster.name}"
+        docker_host     = "${var.docker_host}"
+        docker_auth     = "${var.docker_auth}"
+        docker_email    = "${var.docker_email}"
     }
 }
 
