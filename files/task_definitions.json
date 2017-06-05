@@ -1,0 +1,14 @@
+[
+    {
+        "name": "terraform_test_nginx_container",
+        "memory": 32,
+        "portMappings": [
+            {
+                "hostPort": 80,
+                "containerPort": 80,
+                "protocol": "tcp"
+            }
+        ],
+        "image": "hal2dy/nginx-basic-auth-test"
+    }
+]

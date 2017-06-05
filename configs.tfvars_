@@ -1,0 +1,5 @@
+access_key = "XXX"
+secret_key = "XXX"
+ssh_key = "ssh-rsa XXX"
+docker_auth = "XXX"
+docker_email = "XXX"
