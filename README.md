@@ -1,5 +1,5 @@
 ## TERRAFORM with AWS ECS
-*A sample terraform script to create/manage ECS on AWS*
+*A sample terraform script to create/manage ECS on AWS, with Terraform remote state and state locking using AWS S3 backend*
 
 ### Dependency
 Require [Terraform](https://www.terraform.io/)
@@ -32,13 +32,14 @@ then
 
     terraform apply  -var-file="configs.tfvars"
     
-**Destroy (!Careful!)** 
+**Destroy (!Becareful!)** 
 
     terraform plan -destroy -var-file="configs.tfvars"
     terraform destroy -var-file="configs.tfvars"
     
 ### Summary
 *This terraform script will do*
+ - Setup Terraform remote state and state locking using AWS S3 backend
  - Add new VPC and Network
  - Add new IAM role to ECS service instance
  - Add new Network Security group to ECS instance
